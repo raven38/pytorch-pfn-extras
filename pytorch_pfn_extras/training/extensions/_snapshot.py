@@ -281,7 +281,6 @@ trigger=(1, 'epoch'))
     if savefun is not None and writer is not None:
         raise TypeError(
             'savefun and writer arguments cannot be specified together.')
-
     if saver_rank is None:
         return _Snapshot(
             target=target, condition=condition, writer=writer,
@@ -480,6 +479,10 @@ def _get_ranks_from_env():
         comm_world_size = int(os.environ['MV2_COMM_WORLD_SIZE'])
         comm_rank = int(os.environ['MV2_COMM_WORLD_RANK'])
         comm_local_rank = int(os.environ['MV2_COMM_WORLD_LOCAL_RANK'])
+    elif 'WORLD_SIZE' in os.environ:
+        comm_world_size = int(os.environ['WORLD_SIZE'])
+        comm_rank = int(os.environ['RANK'])
+        comm_local_rank = int(os.environ['LOCAL_RANK'])
     else:
         comm_world_size = 1
         comm_rank = 0
